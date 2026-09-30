@@ -1,0 +1,42 @@
+class Solution {
+    private boolean dfs(char[][] board, String word, boolean[][] visited, int row, int col, int index){
+        if(row >= board.length || col >= board[0].length 
+        || row < 0 || col < 0){
+            return false;
+        }
+        if(visited[row][col]){
+            return false;
+        }
+        if(board[row][col] != word.charAt(index)){
+            return false;
+        }
+        if(index == word.length() - 1){
+            return true;
+        }
+        visited[row][col] = true;
+
+        boolean found = 
+        dfs(board, word, visited, row +1, col, index+1) ||
+        dfs(board, word, visited, row, col+1, index + 1) ||
+        dfs(board, word, visited, row - 1, col , index + 1)||
+        dfs(board, word, visited, row, col - 1, index + 1);
+
+        visited[row][col] = false;
+
+        return found;
+ 
+    }
+    public boolean exist(char[][] board, String word) {
+        boolean[][] visited = new boolean[board.length][board[0].length];
+
+        for(int row = 0; row < board.length; row++){
+            for (int col = 0; col < board[0].length; col++){
+                if(dfs(board, word, visited, row, col, 0)){
+                    return true;
+                }
+            }
+        }
+        return false; 
+
+    }
+}
